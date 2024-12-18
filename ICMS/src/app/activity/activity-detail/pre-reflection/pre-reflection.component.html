@@ -1,0 +1,51 @@
+
+<form *ngIf="load" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="summary-details" *ngIf="load" formGroupName="LearningObjectives">
+        <h3 class="mb-3">Learning Objectives<br /><small class="red-bold" *ngIf="stage == ActivityStatusTypes.PRE.Code">(Select 3 learning objectives from the list below. If you change your learning objective selection, the existing responses will be removed.)</small></h3>
+
+        <ejs-accordion #accordion *ngIf="learningobjectives">
+            <e-accordionitems>
+                <e-accordionitem *ngFor="let learningobjective of learningobjectives; index as i"
+                                 header="#header{{stage}}{{learningobjective.LearningObjectiveId}}"
+                                 content="#div{{stage}}{{learningobjective.LearningObjectiveId}}">
+                </e-accordionitem>
+            </e-accordionitems>
+        </ejs-accordion>
+
+        <div id="header{{stage}}{{learningobjective.LearningObjectiveId}}" class="left" style="display:none" [formGroupName]="i" *ngFor="let learningobjective of learningobjectives; index as i">
+            <ejs-checkbox #checkbox *ngIf="stage == ActivityStatusTypes.PRE.Code" cssClass="checkbox-manage align-middle" formControlName="IsSelected"
+                          value="{{learningobjective.LearningObjectiveId}}" id="{{learningobjective.LearningObjectiveId}}"
+                          [disabled]="getStatus(learningobjective.LearningObjectiveId)" (change)="clickHandler($event, i)"></ejs-checkbox>
+            <span class="e-float-line font-weight-bold align-middle" [ngClass]="getCSSClass(stage, learningobjective)">{{learningobjective.Description}}</span>
+        </div>
+
+        <div id="div{{stage}}{{learningobjective.LearningObjectiveId}}" style="display:none" *ngFor="let learningobjective of learningobjectives; index as i">
+            <app-leaning-objective-qna #loq [showValidation]="showValidation" *ngIf="stage == ActivityStatusTypes.PRE.Code" [LearningObjectiveId]="learningobjective.LearningObjectiveId"
+                                       [indicators]="learningobjective.LearningIndicators" [stage]="stage" (answersEmpty)="updatePreRefStatus($event, i)"
+                                       [questionanswers]="learningobjective.LearningObjectiveQuestions" [index]="i" (onLoad)="loaded()" [allDisabled]="allDisabled"></app-leaning-objective-qna>
+            <app-leaning-objective-qna #loq [showValidation]="showValidation" *ngIf="stage == ActivityStatusTypes.MID.Code" [LearningObjectiveId]="learningobjective.LearningObjectiveId" [stage]="stage"
+                                       (ontrackChange)="updateMidRefStatus($event, i)" [stagequestionanswers]="learningobjective.LearningObjectiveStageQuestionAnswers"
+                                       [MidActivityNotOnTargetInstruction]="learningobjective.MidActivityNotOnTargetInstruction" [index]="i" (onLoad)="loaded()"
+                                       [questionanswers]="learningobjective.LearningObjectiveQuestions" [yesno]="learningobjective.IsMidActivityOnTarget" [allDisabled]="allDisabled"></app-leaning-objective-qna>
+            <app-leaning-objective-qna #loq [showValidation]="showValidation" *ngIf="stage == ActivityStatusTypes.POST.Code" [LearningObjectiveId]="learningobjective.LearningObjectiveId" [stage]="stage"
+                                       (achievedChange)="updatePostRefStatus($event, i)" [stagequestionanswers]="learningobjective.LearningObjectiveStageQuestionAnswers" [allDisabled]="allDisabled"
+                                       [questionanswers]="learningobjective.LearningObjectiveQuestions" [yesno]="learningobjective.IsObjectiveAchieved" [index]="i" (onLoad)="loaded()"></app-leaning-objective-qna>
+        </div>
+        <div class="p-3" *ngIf="stage == ActivityStatusTypes.POST.Code">
+            <hr size="5" />
+            <app-post-reflection-questions [showValidation]="showValidation" *ngIf="activityquestions" [header]="postReflectionHeader" [activitytype]="activitytype" [activityquestions]="activityquestions"
+                                           (onLoad)="loaded()" [allDisabled]="allDisabled"></app-post-reflection-questions>
+        </div>
+    </div>
+</form>
+
+<app-smu-loader loaderClass="component_loader" *ngIf="!load"></app-smu-loader>
+
+
+<!-- Render the validation dialog -->
+<ejs-dialog #validationDialog [buttons]='validationDlgButtons' cssClass="e-fixed" [visible]='hidden' [isModal]='isModal'
+            [animationSettings]='animationSettings' [header]='validationHeader' [showCloseIcon]='confirmCloseIcon' [width]='confirmWidth'>
+    <ng-template #content>
+        <span>{{validationMessage}}</span>
+    </ng-template>
+</ejs-dialog>

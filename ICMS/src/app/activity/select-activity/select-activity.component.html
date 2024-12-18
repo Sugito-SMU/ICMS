@@ -1,0 +1,94 @@
+<div class="activity-table" *ngIf="!isAdmin">
+    <div class="row table-heading">
+        <h2 class="col-md-11">{{communityservicetitle}}</h2>
+        <u class="col-md-1 heading-right"><a target="_blank" href="{{faqlinks.CommunityService}}">FAQ</a></u>
+    </div>
+    <ejs-grid #communityservice [dataSource]="communityservicedata" [allowSorting]="true" (load)="setEmptyMessage($event, ActivityTypes.CommunityService)"
+              (rowSelected)="onRowSelected($event)" class="custom_style" >
+        <e-columns>
+            <e-column field='PositionTitle' headerText='Project Title' width="250"></e-column>
+            <e-column field='StartDate' headerText='Start Date' width="100"></e-column>
+            <e-column field='EndDate' headerText='End Date' width="100"></e-column>
+            <e-column field='ReflectionStatusDescription' headerText='Reflection Status' width="120"></e-column>
+        </e-columns>
+    </ejs-grid>
+    <div class="custom_style e-control e-grid e-lib e-gridhover e-responsive e-default e-tooltip e-keyboard">
+        <div class="e-gridfooter" _ngcontent-c4="">
+            <div class="e-summarycontent" _ngcontent-c4="">
+                <table class="my-footer e-table" cellspacing="0.25px">
+                    <tfoot>
+                        <tr class="e-summaryrow" *ngFor="let os of communityserviceSummary">
+                            <td class="e-summarycell e-templatecell pl-3 pr-2" width="10%">
+                                <strong>{{os.Description}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="24%">
+                                Overall Status: <strong>{{os.Status}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="16%">
+                                Required {{os.Unit}}: <strong>{{os.UnitsRequired}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="17%">
+                                {{os.Unit}} Recognized: <strong>{{os.UnitsRecognized}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="21%" [innerHTML]="os.ProgrammeCode == PRO_BONO_PROG_CODE ? 'Pro Bono ' + os.Unit + ' Recognized: <strong>' + os.ProBono + '</strong>' : ''"></td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-3" width="17%">
+                                {{os.Unit}} Remaining: <strong>{{os.UnitsRemaining}}</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row table-heading">
+        <h2 class="col-md-11">{{internshiptitle}}</h2>
+        <u class="col-md-1 heading-right"><a target="_blank" href="{{faqlinks.Internship}}">FAQ</a></u>
+    </div>
+    <ejs-grid #internship [dataSource]="internshipdata" [allowSorting]="true" 
+              (rowSelected)="onRowSelected($event)" class="custom_style" (load)="setEmptyMessage($event, ActivityTypes.Internship)">
+        <e-columns>
+            <e-column field='PositionTitle' headerText='Internship Title' width="250"></e-column>
+            <e-column field='StartDate' headerText='Start Date' width="100"></e-column>
+            <e-column field='EndDate' headerText='End Date' width="100"></e-column>
+            <e-column field='ReflectionStatusDescription' headerText='Reflection Status' width="120"></e-column>
+        </e-columns>
+    </ejs-grid>
+    <div class="custom_style e-control e-grid e-lib e-gridhover e-responsive e-default e-tooltip e-keyboard">
+        <div class="e-gridfooter" _ngcontent-c4="">
+            <div class="e-summarycontent" _ngcontent-c4="">
+                <table class="my-footer e-table" cellspacing="0.25px">
+                    <tfoot>
+                        <tr class="e-summaryrow" *ngFor="let os of internshipSummary">
+                            <td class="e-summarycell e-templatecell pl-3 pr-2" width="10%">
+                                <strong>{{os.Description}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="24%">
+                                Overall Status: <strong>{{os.Status}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="16%">
+                                Required {{os.Unit}}: <strong>{{os.UnitsRequired}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="17%">
+                                {{os.Unit}} Recognized: <strong>{{os.UnitsRecognized}}</strong>
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-2" width="21%">
+                                
+                            </td>
+                            <td class="e-summarycell e-templatecell pl-2 pr-3" width="17%">
+                                {{os.Unit}} Remaining: <strong>{{os.UnitsRemaining}}</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+<app-access-denied *ngIf="isAdmin"></app-access-denied>
+
+<app-smu-loader loaderClass="overlay_loader" *ngIf="load < 2"></app-smu-loader>

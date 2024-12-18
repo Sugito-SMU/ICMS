@@ -1,0 +1,23 @@
+<div class="activity-table">
+    <div class="control_wrapper" formGroupName="ActivityQuestionAnswers" *ngIf="activityquestions">
+        <div class="form-group template post-ref-header" [innerHTML]="header"></div>
+        <div class="form-group template" *ngFor="let activityquestion of activityquestions, index as i" [formGroupName]="i">
+            <div class="e-float-input">
+                <div>
+                    <label>
+                        <strong class="black">{{activityquestion.Question}}</strong>
+                        <!--Toggle question guide-->
+                        <u><a class="ml-3 a-link" (click)="toggle(i)" [innerHTML]="tooltipText(i)"></a></u>
+                        <div class="mt-1" *ngIf="activityquestion.Show" [@slideInOut] [innerHTML]="activityquestion.QuestionGuide | safeHTML"></div>
+                        
+                    </label>
+                </div>
+                <textarea type="text" name="what" #what placeholder="Minimum {{VALIDATION_PARAMS.TA_MIN_WC_POSTA}} words and maximum {{VALIDATION_PARAMS.TA_MAX_WC_POSTA}} words"
+                          formControlName="Answer" [attr.disabled]="allDisabled ? '' : null" (change)="contentUpdated()">{{activityquestion.Answer}}</textarea>
+                <span class="e-float-line"></span>
+                <div class="alert  alert-danger" *ngIf="getAnswer(i).errors && showValidation">Please enter your answer between {{VALIDATION_PARAMS.TA_MIN_WC_POSTA}} and {{VALIDATION_PARAMS.TA_MAX_WC_POSTA}} words</div>
+                <small class="form-text text-muted pull-right"><code>{{getWordCount(what.value)}}</code> / <code>{{VALIDATION_PARAMS.TA_MAX_WC_POSTA}}</code> word(s)</small>
+            </div>
+        </div>
+    </div>
+</div>

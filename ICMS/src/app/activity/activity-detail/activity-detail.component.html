@@ -1,0 +1,106 @@
+
+<div *ngIf="load" class="activity-table">
+    <div class="row table-heading">
+        <h2 class="col-md-8">{{activitytitle}}</h2>
+        <div class="col-md-4 heading-right" *ngIf="isAdmin && activitydata[0].ReflectionStatusCode != ActivityReflectionCodes.PreActivityNotStarted && activitydata[0].ReflectionStatusCode != ActivityReflectionCodes.PreActivityDraft">
+            <div class="row">
+                <div class="col-sm-2">Stage </div>
+                <div class="col-sm-6">
+                    <ejs-dropdownlist #ddlStatus [dataSource]='statusList' [fields]='fields' placeholder="Select status"></ejs-dropdownlist>
+                </div>
+                <div class="col-sm-4">
+                    <button ejs-button class="btn-default" (click)="showChangeStatusDialog()">Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 pb-5">
+            <ejs-grid [dataSource]="activitydata" *ngIf="activitydata?.length > 0">
+                <e-columns>
+                    <e-column field='PositionTitle' headerText='{{desctitle}}' width="250"></e-column>
+                    <e-column field='StartDate' headerText='Start Date' width="100"></e-column>
+                    <e-column field='EndDate' headerText='End Date' width="100"></e-column>
+                    <e-column field='ReflectionStatusDescription' headerText='Reflection Status' width="120"></e-column>
+                </e-columns>
+            </ejs-grid>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="activitydata?.length > 0">
+        <div class="col-md-12 pb-5">
+            <ejs-tab #tab id='element' (selected)="tabSelected($event)">
+                <e-tabitems>
+                    <e-tabitem [header]='headerText[0]'>
+                        <ng-template #content>
+                            <app-activity-summary [details]="activitydata[0]" style="min-height:200px;"></app-activity-summary>
+                        </ng-template>
+                    </e-tabitem>
+                    <e-tabitem [header]='headerText[1]'>
+                        <ng-template #content>
+                            <app-pre-reflection #preActivity [showValidation]="showValidation" [activityid]="activitydata[0].ActivityId" style="min-height:200px;" [stage]="ActivityStatusTypes.PRE.Code"
+                                                (valueChanged)="valueChanged($event)"></app-pre-reflection>
+                        </ng-template>
+                    </e-tabitem>
+                    <e-tabitem [header]='headerText[2]'>
+                        <ng-template #content>
+                            <app-pre-reflection #midActivity [showValidation]="showValidation" [activityid]="activitydata[0].ActivityId" style="min-height:200px;" [stage]="ActivityStatusTypes.MID.Code"
+                                                (valueChanged)="valueChanged($event)"></app-pre-reflection>
+                        </ng-template>
+                    </e-tabitem>
+                    <e-tabitem [header]='headerText[3]'>
+                        <ng-template #content>
+                            <app-pre-reflection #postActivity [showValidation]="showValidation" [activityid]="activitydata[0].ActivityId" style="min-height:200px;" [stage]="ActivityStatusTypes.POST.Code"
+                                                (valueChanged)="valueChanged($event)" [activitytype]="activitydata[0].ActivityTypeCode"></app-pre-reflection>
+                        </ng-template>
+                    </e-tabitem>
+                </e-tabitems>
+            </ejs-tab>
+
+            <div>
+                <button ejs-button id="back" cssClass="btn-default mt-2" iconCss="fa fa-arrow-left" #confirmBackButton (click)="confirmBackClick()" *ngIf="showButtons">Back</button>
+                <!-- Render the confirmation Dialog -->
+                <ejs-dialog #confirmBackDialog [buttons]='confirmBackDlgButtons' cssClass="e-fixed" [visible]='hidden' [isModal]='isModal'
+                            [animationSettings]='animationSettings' [header]='confirmHeader' [showCloseIcon]='confirmCloseIcon' [width]='confirmWidth'>
+                    <ng-template #content>
+                        <span>Your have not saved your entry. Are you sure you want to go back?</span>
+                    </ng-template>
+                </ejs-dialog>
+
+                <button ejs-button id="submit" *ngIf="currenttab && showButtons" cssClass="btn-default pull-right mt-2 ml-3" iconCss="fa fa-send-o" #confirmSubmitButton (click)="confirmSubmitClick()">Submit</button>
+                <!-- Render the confirmation Dialog -->
+                <ejs-dialog #confirmSubmitDialog [buttons]='confirmSubmitDlgButtons' cssClass="e-fixed" [visible]='hidden' [isModal]='isModal'
+                            [animationSettings]='animationSettings' [header]='confirmHeader' [showCloseIcon]='confirmCloseIcon' [width]='confirmWidth'>
+                    <ng-template #content>
+                        <span>You are about to submit your activity. You will not be able to change after submission.</span>
+                    </ng-template>
+                </ejs-dialog>
+                <!-- Render the confirmation Dialog -->
+                <ejs-dialog #confirmSubmitValidationDialog [buttons]='confirmSubmitValidationDlgButtons' cssClass="e-fixed" [visible]='hidden' [isModal]='isModal'
+                            [animationSettings]='animationSettings' [header]='validationHeader' [showCloseIcon]='confirmCloseIcon' [width]='confirmWidth'>
+                    <ng-template #content>
+                        <span>{{validationMessage}}</span>
+                    </ng-template>
+                </ejs-dialog>
+
+                <button *ngIf="currenttab && showButtons" ejs-button cssClass="btn-default pull-right mt-2" iconCss="fa fa-floppy-o" (click)="submit()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Render the validation dialog -->
+<ejs-dialog #validationDialog [buttons]='changeStatusValidationDlgButtons' cssClass="e-fixed" [visible]='hidden' [isModal]='isModal'
+            [animationSettings]='animationSettings' [header]='validationHeader' [showCloseIcon]='confirmCloseIcon' [width]='confirmWidth'>
+    <ng-template #content>
+        <span>{{changeStatusValidationMessage}}</span>
+    </ng-template>
+</ejs-dialog>
+<!-- Render the validation dialog -->
+<ejs-dialog #confirmationDialog [buttons]='changeStatusConfirmDlgButtons' cssClass="e-fixed" [visible]='hidden' [isModal]='isModal'
+            [animationSettings]='animationSettings' [header]='confirmHeader' [showCloseIcon]='confirmCloseIcon' [width]='confirmWidth'>
+    <ng-template #content>
+        <span>{{changeStatusConfirmationMessage}}</span>
+    </ng-template>
+</ejs-dialog>
+<app-smu-loader loaderClass="component_loader" *ngIf="!load"></app-smu-loader>

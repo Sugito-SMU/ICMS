@@ -1,0 +1,74 @@
+<div class="summary-details">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong>{{details.OrganisationDescription}}</strong>
+                <p>Organisation</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong>{{details.CountryDescription}}</strong>
+                <p>Country</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong>{{details.StartDate}}</strong>
+                <p>Start Date</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong>{{details.PositionTitle}}</strong>
+                <p>{{title}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong>{{details.EndDate}}</strong>
+                <p>End Date</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong>{{details.OverallGradeDescription}}</strong>
+                <p>Appraisal Rating</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong class="text-lowercase">{{details.Duration}} {{details.Unit}}</strong>
+                <p>Duration</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="summary-blog">
+                <strong class="text-lowercase" *ngIf="details.UnitsRecognised.length <= 1">{{details.UnitRecognised}} {{details.Unit}}</strong>
+                <strong *ngIf="details.UnitsRecognised.length > 1">
+                    <ng-container *ngFor="let ur of details.UnitsRecognised;">
+                        {{ur.Key}}: {{ur.Value}} {{details.Unit.toLowerCase()}}<br />
+                    </ng-container>
+                </strong>
+                <p>{{details.Unit}} Recognized</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="summary-blog border-remove mb-0">
+                <span [innerHTML]="details.Description.substring(0, length) | replaceLineBreaks"></span>
+                &nbsp;<u *ngIf="details.Description.length > SHORT_DESC_LENGTH"><a class="a-link" (click)="showMoreLess()">{{ show ? '...Show less': 'Show More...' }}</a></u>
+                <p>{{description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

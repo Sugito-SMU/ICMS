@@ -1,0 +1,39 @@
+﻿@model ICMS.Entity.ViewModels.StudentViewModel
+
+@using ICMS.CustomHelpers
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/libs/runtime.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/polyfills.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/scripts.js"></script>
+    <script type="text/javascript" src="~/Scripts/libs/main.js"></script>
+
+    <!--Needed only in development mode-->
+    @if (Helper.DEBUG())
+    {
+        <script type="text/javascript" src="~/Scripts/libs/vendor.js"></script>
+    }
+}
+
+<app-root>
+    <!-- loading layout replaced by app after startupp -->
+    <div class="loader_wrapper">
+        <div class="item loading-2">
+            <div class="spinner">
+                <div class="circle circle-1">
+                    <div class="circle-inner"></div>
+                </div>
+                <div class="circle circle-2">
+                    <div class="circle-inner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-root>
+
+<script type="text/javascript">
+    localStorage.setItem("student_name", "@Model.Name");
+    localStorage.setItem("student_id", "@Model.UserId");
+    localStorage.setItem("is_admin", "@Model.IsAdmin");
+    localStorage.setItem("API_BASE_URL", "@ViewBag.API_BASE_URL");
+    localStorage.setItem("WEBSITE_BASE_URL", "@ViewBag.WEBSITE_BASE_URL");
+</script>

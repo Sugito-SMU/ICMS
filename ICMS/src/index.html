@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SMU</title>
+  <base href="/">
+  <!-- reduced for brevity -->
+
+  <script>
+  (function(d) {
+    var config = {
+      kitId: 'uhs0req',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+  </script>
+
+  <style type="text/css">
+    html {
+      font-size: 1em;
+    }
+
+    body {
+      font-family: 'myriad-pro', serif !important;
+      font-weight: 400;
+      line-height: 1.45;
+      color: #333 !important;
+    }
+
+    div, p, small, code, span, button, input, textarea, label {
+      font-family: 'myriad-pro', serif !important;
+    }
+
+    .fa {
+      font: normal normal normal 14px/1 FontAwesome !important;
+    }
+
+    .e-icons {
+      font-family: 'e-icons' !important;
+    }
+
+    p {
+      margin-bottom: 1.3em;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'proxima-nova-extra-condensed', serif !important;
+      margin: 1.414em 0 0.5em;
+      font-weight: inherit !important;
+      line-height: 1.2 !important;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2.441em !important;
+    }
+
+    h2 {
+      font-size: 1.953em !important;
+    }
+
+    h3 {
+      font-size: 1.563em !important;
+    }
+
+    h4 {
+      font-size: 1.25em !important;
+    }
+
+    small, .font_small {
+      font-size: 0.8em !important;
+      color: #767676 !important;
+    }
+
+    small, .font_small, code, label {
+      color: #767676 !important;
+    }
+  </style>
+
+  <!-- inline spinner styles to be able to display spinner right away -->
+  <style type="text/css">
+	.spinner {
+		height: 200px;
+		width: 200px;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	@keyframes lds-blocks {
+		0% {
+			background: #9a7e4b;
+		}
+		12.5% {
+			background: #9a7e4b;
+		}
+		12.625% {
+			background: #06206e;
+		}
+		100% {
+			background: #06206e;
+		}
+	}
+	@-webkit-keyframes lds-blocks {
+		0% {
+		background: #9a7e4b;
+		}
+		12.5% {
+		background: #9a7e4b;
+		}
+		12.625% {
+		background: #06206e;
+		}
+		100% {
+		background: #06206e;
+		}
+	}
+	.lds-blocks {
+		position: relative;
+	}
+	.lds-blocks div {
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		background: #06206e;
+		-webkit-animation: lds-blocks 1s linear infinite;
+		animation: lds-blocks 1s linear infinite;
+	}
+	.lds-blocks {
+		width: 200px !important;
+		height: 200px !important;
+		-webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+		transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+	}
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/x-icon" href="assets/images/smu_favicon.png">
+</head>
+<body>
+  <app-root> <!-- selector from app.component.ts -->
+      
+    <!-- loading layout replaced by app after startupp -->
+	<div class="lds-css ng-scope spinner">
+		<div class="lds-blocks" style="width:100%;height:100%"><div style="left:38px;top:38px;animation-delay:0s"></div><div style="left:80px;top:38px;animation-delay:0.125s"></div><div style="left:122px;top:38px;animation-delay:0.25s"></div><div style="left:38px;top:80px;animation-delay:0.875s"></div><div style="left:122px;top:80px;animation-delay:0.375s"></div><div style="left:38px;top:122px;animation-delay:0.75s"></div><div style="left:80px;top:122px;animation-delay:0.625s"></div><div style="left:122px;top:122px;animation-delay:0.5s"></div></div>
+	</div>
+    
+  </app-root>
+</body>
+</html>
